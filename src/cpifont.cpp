@@ -5,6 +5,9 @@
 #include <iostream>
 #include <vector>
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4200)
+#endif
 
 #pragma pack(push, r1, 1)
 struct cpi_file_header {
@@ -44,7 +47,7 @@ struct cpi_font_data {
 };
 #pragma pack(pop, r1)
 
-const char cpi_file_tag[8] = {0xFF, 'F', 'O', 'N', 'T', ' ', ' ', ' '};
+const char cpi_file_tag[8] = {'\xFF', 'F', 'O', 'N', 'T', ' ', ' ', ' '};
 
 enum class cpi_device_type : uint16_t {
   display = 1,
