@@ -1,0 +1,8 @@
+.vs*
+*.exe
+*.dll
+*.so
+*.lib
+*.obj
+*.o
+*.pdb
