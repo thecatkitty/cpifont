@@ -10,7 +10,17 @@ int main(
 {
   if (argc <= 1) {
     std::cerr << "error: no file name provided" << std::endl;
+    std::cerr << "tip: use -h for help" << std::endl;
     return 1;
+  }
+
+  if (std::string{argv[1]} == "-h") {
+    std::cout << "cpitool filename [-G]" << std::endl
+              << "\tDump CPI file information (-G - show glyphs)." << std::endl
+              << std::endl
+              << "cpitool filename n n n" << std::endl
+              << "\tShow a glyph with selected entry, font and index number." << std::endl;
+    return 0;
   }
 
   std::ifstream fin{argv[1], std::ios::binary};
