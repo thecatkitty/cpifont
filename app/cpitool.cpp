@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 
 
 int main(
@@ -27,31 +26,19 @@ int main(
     return 3;
   }
 
-  auto entries = cpifont_get_entry_count(&cfs);
-  std::cout << "number of entries : " << entries << std::endl;
+  switch (argc) {
+    case 2:
+      return cmd_dump(false);
 
-  cpifont_entry_info entry{0};
-  for (int e = 0; e < entries; e++) {
-    cpifont_get_next_entry(&cfs, &entry);
+    case 3:
+      return cmd_dump(std::string{argv[2]} == "-G");
 
-    std::ostringstream oss;
-    oss << "entry " << e << ": ";
-    print_entry(entry, oss.str());
+    case 5:
+      return cmd_glyph(std::atoi(argv[2]), std::atoi(argv[3]), std::atoi(argv[4]));
 
-    for (int f = 0; f < entry.fonts; f++) {
-      cpifont_font_info font{};
-      cpifont_get_next_font(&cfs, &entry, &font);
-
-      std::ostringstream oss;
-      oss << "font " << e << '.' << f << ": ";
-      print_font(entry, font, oss.str());
-
-      for (int g = 0; g < font.glyphs; g++) {
-        std::ostringstream oss;
-        oss << "glyph " << e << '.' << f << '.' << g << std::endl;
-        print_glyph(font, g, oss.str());
-      }
-    }
+    default:
+      std::cerr << "error: invalid number of arguments" << std::endl;
+      return 4;
   }
 
   return 0;

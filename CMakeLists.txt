@@ -6,6 +6,8 @@ include_directories(inc)
 
 add_executable(${PROJECT_NAME}
     app/cpitool.cpp
+    app/cmdump.cpp
+    app/cmglyph.cpp
     app/print.cpp
     app/stream.cpp
     lib/common.c
