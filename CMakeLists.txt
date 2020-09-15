@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.10)
 project("cpitool" CXX C)
 
 include_directories(inc)
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/lib")
+
+add_subdirectory(lib)
 
 add_executable(${PROJECT_NAME}
     app/cpitool.cpp
@@ -10,9 +13,6 @@ add_executable(${PROJECT_NAME}
     app/cmglyph.cpp
     app/print.cpp
     app/stream.cpp
-    lib/common.c
-    lib/header.c
-    lib/entries.c
-    lib/fonts.c
-    lib/names.c
 )
+
+target_link_libraries(${PROJECT_NAME} cpifont)

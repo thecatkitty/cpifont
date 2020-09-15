@@ -5,7 +5,10 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
+
+#include "cpifont_exports.h"
 
 
 typedef enum {
@@ -59,28 +62,28 @@ typedef struct {
 } cpifont_font_info;
 
 
-extern bool cpifont_is_cpi(
+bool CPIFONT_EXPORTS cpifont_is_cpi(
   const cpifont_stream       *s);
-extern int  cpifont_get_entry_count(
+int  CPIFONT_EXPORTS cpifont_get_entry_count(
   const cpifont_stream       *s);
 
-extern bool cpifont_get_next_entry(
+bool CPIFONT_EXPORTS cpifont_get_next_entry(
   const cpifont_stream       *s,
         cpifont_entry_info   *entry);
-extern bool cpifont_get_next_font(
+bool CPIFONT_EXPORTS cpifont_get_next_font(
   const cpifont_stream       *s,
   const cpifont_entry_info   *entry,
         cpifont_font_info    *font);
 
-extern bool cpifont_get_glyph(
+bool CPIFONT_EXPORTS cpifont_get_glyph(
   const cpifont_stream       *s,
   const cpifont_font_info    *font,
         size_t               index,
         char                 *glyph);
 
-extern const char *cpifont_get_device_string(
+const char CPIFONT_EXPORTS *cpifont_get_device_string(
         cpifont_device       device);
-extern const char *cpifont_get_device_type_string(
+const char CPIFONT_EXPORTS *cpifont_get_device_type_string(
         cpifont_device_type  device_type);
 
 #ifdef __cplusplus
