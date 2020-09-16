@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using CommandLine;
 
 partial class CpiTool
@@ -34,8 +33,6 @@ partial class CpiTool
                 var font = entry.Fonts[f];
                 PrintObject($"font {e},{f}: ", font.NativeInfo);
 
-                var rowSize = (font.NativeInfo.GlyphWidth - 1) / 8 + 1;
-                var glyphSize = rowSize * font.NativeInfo.GlyphHeight;
                 if (options.ShowGlyphs) {
                     for (int g = 0; g < font.NativeInfo.Glyphs; g++)
                     {

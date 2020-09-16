@@ -22,11 +22,8 @@ namespace CpiFont
         static bool StreamSeek(IntPtr ctx, UIntPtr offset, Interop.Origin origin)
         {
             var stream = GCHandle.FromIntPtr(ctx).Target as Stream;
-            var seekOrigin = (origin == Interop.Origin.Beg) ? SeekOrigin.Begin :
-                            (origin == Interop.Origin.Cur) ? SeekOrigin.Current :
-                            SeekOrigin.End;
             try {
-                stream.Seek((long) offset, seekOrigin);
+                stream.Seek((long) offset, origin.ToSeekOrigin());
                 return true;
             } catch {
                 return false;
