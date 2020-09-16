@@ -75,30 +75,30 @@ typedef struct {
 } cpifont_font_info;
 
 
-cpifont_type CPIFONT_EXPORTS cpifont_get_type(
+cpifont_type CPIFONT_EXPORTS __cdecl cpifont_get_type(
   const cpifont_stream       *s);
-int  CPIFONT_EXPORTS cpifont_get_entry_count(
+int  CPIFONT_EXPORTS __cdecl cpifont_get_entry_count(
   const cpifont_stream       *s);
 
-bool CPIFONT_EXPORTS cpifont_get_next_entry(
+bool CPIFONT_EXPORTS __cdecl cpifont_get_next_entry(
   const cpifont_stream       *s,
         cpifont_entry_info   *entry);
-bool CPIFONT_EXPORTS cpifont_get_next_font(
+bool CPIFONT_EXPORTS __cdecl cpifont_get_next_font(
   const cpifont_stream       *s,
   const cpifont_entry_info   *entry,
         cpifont_font_info    *font);
 
-bool CPIFONT_EXPORTS cpifont_get_glyph(
+bool CPIFONT_EXPORTS __cdecl cpifont_get_glyph(
   const cpifont_stream       *s,
   const cpifont_font_info    *font,
         size_t               index,
         char                 *glyph);
 
-const char CPIFONT_EXPORTS *cpifont_get_type_string(
+const char CPIFONT_EXPORTS * __cdecl cpifont_get_type_string(
         cpifont_type         type);
-const char CPIFONT_EXPORTS *cpifont_get_device_string(
+const char CPIFONT_EXPORTS * __cdecl cpifont_get_device_string(
         cpifont_device       device);
-const char CPIFONT_EXPORTS *cpifont_get_device_type_string(
+const char CPIFONT_EXPORTS * __cdecl cpifont_get_device_type_string(
         cpifont_device_type  device_type);
 
 #ifdef __cplusplus

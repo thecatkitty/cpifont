@@ -11,16 +11,23 @@ namespace CpiFont
             End = 2
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate UIntPtr ReadFPtr(
             IntPtr ctx,
             [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] buff,
             UIntPtr bytes);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate UIntPtr WriteFPtr(
             IntPtr ctx,
             [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] buff,
             UIntPtr bytes);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate UIntPtr FlushTellFPtr(
             IntPtr ctx);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool SeekFPtr(
             IntPtr ctx,
             UIntPtr offset,
