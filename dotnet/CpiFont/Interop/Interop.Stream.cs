@@ -5,6 +5,12 @@ namespace CpiFont
 {
     public partial class Interop
     {
+        public enum Origin {
+            Beg = 0,
+            Cur = 1,
+            End = 2
+        }
+
         public delegate UIntPtr ReadFPtr(
             IntPtr ctx,
             [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] buff,
