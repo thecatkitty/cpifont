@@ -23,53 +23,11 @@ partial class CpiTool
     static int RunGlyph(GlyphOptions options)
     {
         var file = options.File.Open(FileMode.Open);
-
-        var stream = new CpiFont.Interop.Stream{};
-        var ctx = GCHandle.Alloc(file);
-        stream.Read = StreamRead;
-        stream.Tell = StreamTell;
-        stream.Seek = StreamSeek;
-        stream.Context = GCHandle.ToIntPtr(ctx);
-
-        if (options.EntryIndex >= CpiFont.Interop.cpifont_get_entry_count(stream))
-        {
-            throw new ArgumentOutOfRangeException(
-                "Entry index out of range");
-        }
-
-        var entry = new CpiFont.Interop.EntryInfo{};
-        for (int e = 0; e <= options.EntryIndex; e++) {
-            CpiFont.Interop.cpifont_get_next_entry(stream, entry);
-        }
-
-        if (options.FontIndex >= entry.Fonts)
-        {
-            throw new ArgumentOutOfRangeException(
-                "Font index out of range");
-        }
-
-        var font = new CpiFont.Interop.FontInfo{};
-        for (int f = 0; f <= options.FontIndex; f++) {
-            CpiFont.Interop.cpifont_get_next_font(stream, entry, font);
-        }
-
-        if (options.GlyphIndex >= font.Glyphs)
-        {
-            throw new ArgumentOutOfRangeException(
-                "Glyph index out of range");
-        }
-
-        var rowSize = (font.GlyphWidth - 1) / 8 + 1;
-        var glyphSize = rowSize * font.GlyphHeight;
-        byte[] glyph = new byte[glyphSize];
-        CpiFont.Interop.cpifont_get_glyph(
-            stream,
-            font,
-            (UIntPtr) options.GlyphIndex,
-            glyph);
-        PrintGlyph(glyph, font.GlyphWidth);
-
-        ctx.Free();
+        var cpi = new CpiFont.CpiFile(file);
+        var font = cpi.Entries[options.EntryIndex].Fonts[options.FontIndex];
+        PrintGlyph(
+            font.GetGlyph(options.GlyphIndex),
+            font.NativeInfo.GlyphWidth);
         return 0;
     }
 }

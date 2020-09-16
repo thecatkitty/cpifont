@@ -19,48 +19,34 @@ partial class CpiTool
     static int RunDump(DumpOptions options)
     {
         var file = options.File.Open(FileMode.Open);
+        var cpi = new CpiFont.CpiFile(file);
 
-        var stream = new CpiFont.Interop.Stream{};
-        var ctx = GCHandle.Alloc(file);
-        stream.Read = StreamRead;
-        stream.Tell = StreamTell;
-        stream.Seek = StreamSeek;
-        stream.Context = GCHandle.ToIntPtr(ctx);
+        Console.WriteLine($"file: type    = {cpi.Type}");
+        Console.WriteLine($"file: entries = {cpi.Entries.Count}");
 
-        var type = CpiFont.Interop.cpifont_get_type(stream);
-        Console.WriteLine($"file: type    = {type}");
+        for (int e = 0; e < cpi.Entries.Count; e++)
+        {
+            var entry = cpi.Entries[e];
+            PrintObject($"entry {e}: ", entry.NativeEntry);
 
-        var entries = CpiFont.Interop.cpifont_get_entry_count(stream);
-        Console.WriteLine($"file: entries = {entries}");
-
-        var entry = new CpiFont.Interop.EntryInfo{};
-        entry.NextOffset = (UIntPtr) 0;
-        for (int e = 0; e < entries; e++) {
-            CpiFont.Interop.cpifont_get_next_entry(stream, entry);
-            PrintObject($"entry {e}: ", entry);
-
-            for (int f = 0; f < entry.Fonts; f++)
+            for (int f = 0; f < entry.Fonts.Count; f++)
             {
-                var font = new CpiFont.Interop.FontInfo{};
-                CpiFont.Interop.cpifont_get_next_font(stream, entry, font);
-                PrintObject($"font {e},{f}: ", font);
+                var font = entry.Fonts[f];
+                PrintObject($"font {e},{f}: ", font.NativeInfo);
 
-                var rowSize = (font.GlyphWidth - 1) / 8 + 1;
-                var glyphSize = rowSize * font.GlyphHeight;
+                var rowSize = (font.NativeInfo.GlyphWidth - 1) / 8 + 1;
+                var glyphSize = rowSize * font.NativeInfo.GlyphHeight;
                 if (options.ShowGlyphs) {
-                    for (int g = 0; g < font.Glyphs; g++)
+                    for (int g = 0; g < font.NativeInfo.Glyphs; g++)
                     {
-                        byte[] glyph = new byte[glyphSize];
-                        CpiFont.Interop.cpifont_get_glyph(
-                            stream, font, (UIntPtr) g, glyph);
-                            Console.WriteLine($"glyph {e},{f},{g}");
-                        PrintGlyph(glyph, font.GlyphWidth);
+                        var glyph = font.GetGlyph(g);
+                        Console.WriteLine($"glyph {e},{f},{g}");
+                        PrintGlyph(glyph, font.NativeInfo.GlyphWidth);
                     }
                 }
             }
         }
 
-        ctx.Free();
         return 0;
     }
 }
