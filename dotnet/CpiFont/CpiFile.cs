@@ -29,6 +29,7 @@ namespace CpiFont
                     Entries.Add(new CodePage(_stream, entry));
                     var next = new Interop.EntryInfo{};
                     next.NextOffset = entry.NextOffset;
+                    next.FileType = entry.FileType;
                     entry = next;
                 }
             }
