@@ -16,10 +16,12 @@ int main(
 
   if (std::string{argv[1]} == "-h") {
     std::cout << "cpitool filename [-G]" << std::endl
-              << "\tDump CPI file information (-G - show glyphs)." << std::endl
+              << "\tDump CPI file information (-G - show glyphs)."
+              << std::endl
               << std::endl
               << "cpitool filename n n n" << std::endl
-              << "\tShow a glyph with selected entry, font and index number." << std::endl;
+              << "\tShow a glyph with selected entry, font and index number."
+              << std::endl;
     return 0;
   }
 
@@ -44,7 +46,10 @@ int main(
       return cmd_dump(std::string{argv[2]} == "-G");
 
     case 5:
-      return cmd_glyph(std::atoi(argv[2]), std::atoi(argv[3]), std::atoi(argv[4]));
+      return cmd_glyph(
+        std::atoi(argv[2]),
+        std::atoi(argv[3]),
+        std::atoi(argv[4]));
 
     default:
       std::cerr << "error: invalid number of arguments" << std::endl;

@@ -19,7 +19,7 @@ const char cpi_device_name_eps[8] = {'E', 'P', 'S', ' ', ' ', ' ', ' ', ' '};
 const char cpi_device_name_ppds[8] = {'P', 'P', 'D', 'S', ' ', ' ', ' ', ' '};
 
 
-const char CPIFONT_EXPORTS *cpifont_get_type_string(
+const char *cpifont_get_type_string(
         cpifont_type         type)
 {
   switch (type) {
