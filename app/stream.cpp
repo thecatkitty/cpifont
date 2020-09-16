@@ -3,6 +3,10 @@
 #include <iostream>
 
 
+#ifdef _MSC_VER
+#pragma warning(disable : 4244)
+#endif
+
 cpifont_stream cfs{
   /*read*/[](void *ctx, char *buffer, size_t bytes) -> size_t {
     auto fi = reinterpret_cast<std::istream*>(ctx);

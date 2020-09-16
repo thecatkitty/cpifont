@@ -22,11 +22,19 @@ bool cpifont_get_next_font(
   row_size = (data.character_cols - 1) / 8 + 1;
   glyph_size = row_size * data.character_rows;
 
-  font->glyph_width = data.character_cols;
-  font->glyph_height = data.character_rows;
-  font->glyphs = data.characters_count;
+  if ((data.character_cols == 0xFF) &&
+      (data.character_rows == 0xFF) &&
+      (data.characters_count == 0xFFFF)) {
+    font->glyph_width = 0;
+    font->glyph_height = 0;
+    font->glyphs = 0;
+  } else {
+    font->glyph_width = data.character_cols;
+    font->glyph_height = data.character_rows;
+    font->glyphs = data.characters_count;
+  }
   font->bitmap_offset = s->tell(s->context);
-  font->bitmap_size = glyph_size * data.characters_count;
+  font->bitmap_size = glyph_size * font->glyphs;
   return true;
 }
 

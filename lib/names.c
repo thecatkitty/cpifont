@@ -4,13 +4,24 @@
 #define CASE_STR(x) case (x): return (#x)
 
 
-const char cpi_file_tag[8] = {'\xFF', 'F', 'O', 'N', 'T', ' ', ' ', ' '};
+const char cpi_dos_file_tag[8] = {'\xFF', 'F', 'O', 'N', 'T', ' ', ' ', ' '};
+const char cpi_nt_file_tag[8] = {'\xFF', 'F', 'O', 'N', 'T', '.', 'N', 'T'};
 
 const char cpi_device_name_cga[8] = {'C', 'G', 'A', ' ', ' ', ' ', ' ', ' '};
 const char cpi_device_name_ega[8] = {'E', 'G', 'A', ' ', ' ', ' ', ' ', ' '};
 const char cpi_device_name_mono[8] = {'M', 'O', 'N', 'O', ' ', ' ', ' ', ' '};
 const char cpi_device_name_lcd[8] = {'L', 'C', 'D', ' ', ' ', ' ', ' ', ' '};
 
+
+const char CPIFONT_EXPORTS *cpifont_get_type_string(
+        cpifont_type         type)
+{
+  switch (type) {
+    CASE_STR(CPIFONT_TYPE_DOS);
+    CASE_STR(CPIFONT_TYPE_NT);
+    default: return "unknown";
+  }
+}
 
 const char *cpifont_get_device_string(
         cpifont_device       device)

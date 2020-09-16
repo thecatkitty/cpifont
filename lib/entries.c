@@ -8,6 +8,7 @@ bool cpifont_get_next_entry(
         cpifont_entry_info   *entry)
 {
   bool ret;
+  size_t base;
   cpi_file_header file_hdr;
   cpi_codepage_entry_header entry_header;
   cpi_font_data_header data_header;
@@ -19,7 +20,11 @@ bool cpifont_get_next_entry(
       return false;
     }
 
-    if (!_matches_tag(file_hdr.file_tag, cpi_file_tag)) {
+    if (_matches_tag(file_hdr.file_tag, cpi_dos_file_tag)) {
+      entry->file_type = CPIFONT_TYPE_DOS;
+    } else if (_matches_tag(file_hdr.file_tag, cpi_nt_file_tag)) {
+      entry->file_type = CPIFONT_TYPE_NT;
+    } else {
       return false;
     }
 
@@ -31,6 +36,7 @@ bool cpifont_get_next_entry(
     s->seek(s->context, entry->next_offset, CPIFONT_ORIGIN_BEG);
   }
 
+  base = (entry->file_type == CPIFONT_TYPE_NT) ? s->tell(s->context) : 0;
   s->read(s->context, (char*)&entry_header, sizeof(entry_header.header_size));
   switch (entry_header.header_size) {
     case sizeof(entry_header):
@@ -84,13 +90,13 @@ bool cpifont_get_next_entry(
 
   entry->codepage = entry_header.codepage;
 
-  s->seek(s->context, entry_header.font_offset, CPIFONT_ORIGIN_BEG);
+  s->seek(s->context, base + entry_header.font_offset, CPIFONT_ORIGIN_BEG);
   s->read(s->context, (char*)&data_header, sizeof(data_header));
 
   entry->fonts = data_header.fonts_count;
-  entry->fonts_offset = entry_header.font_offset + sizeof(data_header);
+  entry->fonts_offset = base + entry_header.font_offset + sizeof(data_header);
   entry->fonts_size = data_header.data_length;
 
-  entry->next_offset = entry_header.next_offset;
+  entry->next_offset = base + entry_header.next_offset;
   return true;
 }

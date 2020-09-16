@@ -7,8 +7,12 @@
 int cmd_dump(
         bool                 print_glyphs)
 {
+  std::cout << "file: type    = "
+            << cpifont_get_type_string(cpifont_get_type(&cfs)) << std::endl;
+
   auto entries = cpifont_get_entry_count(&cfs);
-  std::cout << "number of entries : " << entries << std::endl;
+  std::cout << "file: entries = "
+            << entries << std::endl;
 
   cpifont_entry_info entry{0};
   for (int e = 0; e < entries; e++) {

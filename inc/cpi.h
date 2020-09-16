@@ -54,12 +54,6 @@ enum cpi_device_type {
   CPI_DEVICE_PRINTER = 2
 };
 
-extern const char cpi_file_tag[8];
-extern const char cpi_device_name_cga[8];
-extern const char cpi_device_name_ega[8];
-extern const char cpi_device_name_mono[8];
-extern const char cpi_device_name_lcd[8];
-
 #ifdef __cplusplus
 } // extern "C"
 #endif

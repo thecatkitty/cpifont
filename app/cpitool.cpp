@@ -31,7 +31,7 @@ int main(
 
   cfs.context = &fin;
 
-  if (!cpifont_is_cpi(&cfs)) {
+  if (cpifont_get_type(&cfs) == CPIFONT_TYPE_UNKNOWN) {
     std::cerr << "error: not a CPI file" << std::endl;
     return 3;
   }
