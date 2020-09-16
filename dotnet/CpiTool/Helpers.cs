@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Linq;
 
 partial class CpiTool
@@ -28,5 +30,16 @@ partial class CpiTool
             }
             System.Console.WriteLine();
         }
+    }
+
+    static CpiFont.CpiFile OpenCpiFile(FileInfo fileInfo)
+    {
+        var file = fileInfo.Open(FileMode.Open);
+        var cpi = new CpiFont.CpiFile(file);
+        if (cpi.Type == CpiFont.FileType.Unknown)
+        {
+            throw new FormatException("Unknown file format.");
+        }
+        return cpi;
     }
 }

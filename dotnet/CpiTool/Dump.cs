@@ -17,8 +17,16 @@ partial class CpiTool
 
     static int RunDump(DumpOptions options)
     {
-        var file = options.File.Open(FileMode.Open);
-        var cpi = new CpiFont.CpiFile(file);
+        CpiFont.CpiFile cpi;
+        try {
+            cpi = OpenCpiFile(options.File);
+        } catch (IOException ioex) {
+            Console.Error.WriteLine($"error: {ioex.Message}");
+            return 2;
+        } catch (FormatException fex) {
+            Console.Error.WriteLine($"error: {fex.Message}");
+            return 3;
+        }
 
         Console.WriteLine($"file: type    = {cpi.Type}");
         Console.WriteLine($"file: entries = {cpi.Entries.Count}");

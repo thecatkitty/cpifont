@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using CommandLine;
 
@@ -20,12 +21,42 @@ partial class CpiTool
 
     static int RunGlyph(GlyphOptions options)
     {
-        var file = options.File.Open(FileMode.Open);
-        var cpi = new CpiFont.CpiFile(file);
-        var font = cpi.Entries[options.EntryIndex].Fonts[options.FontIndex];
-        PrintGlyph(
-            font.GetGlyph(options.GlyphIndex),
-            font.NativeInfo.GlyphWidth);
+        CpiFont.CpiFile cpi;
+        try {
+            cpi = OpenCpiFile(options.File);
+        } catch (IOException ioex) {
+            Console.Error.WriteLine($"error: {ioex.Message}");
+            return 2;
+        } catch (FormatException fex) {
+            Console.Error.WriteLine($"error: {fex.Message}");
+            return 3;
+        }
+
+        CpiFont.CodePage entry;
+        try {
+            entry = cpi.Entries[options.EntryIndex];
+        } catch (ArgumentOutOfRangeException) {
+            Console.Error.WriteLine($"error: Entry index out of range.");
+            return 21;
+        }
+
+        CpiFont.Font font;
+        try {
+            font = entry.Fonts[options.FontIndex];
+        } catch (ArgumentOutOfRangeException) {
+            Console.Error.WriteLine($"error: Font index out of range.");
+            return 22;
+        }
+
+        try {
+            PrintGlyph(
+                font.GetGlyph(options.GlyphIndex),
+                font.NativeInfo.GlyphWidth);
+        } catch (ArgumentOutOfRangeException) {
+            Console.Error.WriteLine($"error: Glyph index out of range.");
+            return 23;
+        }
+
         return 0;
     }
 }

@@ -18,16 +18,19 @@ namespace CpiFont
             _stream.Context = GCHandle.ToIntPtr(_ctx);
 
             Type = Interop.cpifont_get_type(_stream);
-
-            var entryCount = Interop.cpifont_get_entry_count(_stream);
             Entries = new List<CodePage>();
-            var entry = new Interop.EntryInfo{};
-            for (int e = 0; e < entryCount; e++) {
-                Interop.cpifont_get_next_entry(_stream, entry);
-                Entries.Add(new CodePage(_stream, entry));
-                var next = new Interop.EntryInfo{};
-                next.NextOffset = entry.NextOffset;
-                entry = next;
+
+            if (Type != FileType.Unknown)
+            {
+                var entryCount = Interop.cpifont_get_entry_count(_stream);
+                var entry = new Interop.EntryInfo{};
+                for (int e = 0; e < entryCount; e++) {
+                    Interop.cpifont_get_next_entry(_stream, entry);
+                    Entries.Add(new CodePage(_stream, entry));
+                    var next = new Interop.EntryInfo{};
+                    next.NextOffset = entry.NextOffset;
+                    entry = next;
+                }
             }
         }
 
