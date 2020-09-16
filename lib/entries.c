@@ -74,7 +74,7 @@ bool cpifont_get_next_entry(
   if (_matches_tag(entry_header.device_name, cpi_device_name_ega)) {
     entry->device = CPIFONT_DEVICE_EGA;
   } else if (_matches_tag(entry_header.device_name, cpi_device_name_lcd)) {
-    entry->device = CPIFONT_DEVICE_LCD;
+    entry->device = CPIFONT_DEVICE_IBM5140;
   } else if (_matches_tag(entry_header.device_name, cpi_device_name_cga)) {
     entry->device = CPIFONT_DEVICE_CGA;
   } else if (_matches_tag(entry_header.device_name, cpi_device_name_mono)) {
