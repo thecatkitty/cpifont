@@ -2,11 +2,11 @@ strategy:
   matrix:
     linux:
       imageName: 'ubuntu-latest'
-      cmakeArgs: ''
+      cmakeArgs: '-S ..'
       makeCmd: 'make'
     windows:
       imageName: 'windows-latest'
-      cmakeArgs: '-G "NMake Makefiles"'
+      cmakeArgs: '-S .. -G "NMake Makefiles"'
       makeCmd: 'nmake'
 
 trigger:
