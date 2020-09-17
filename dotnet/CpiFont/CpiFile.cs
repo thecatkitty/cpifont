@@ -16,13 +16,16 @@ namespace CpiFont
 
         public FileType Type { get; private set; }
 
-        public IList<CodePage> Entries {
-            get {
+        public IList<CodePage> Entries
+        {
+            get
+            {
                 if (_entries.Count == 0 && Type != FileType.Unknown)
                 {
                     var entryCount = NativeGetEntryCount();
                     var entry = new Interop.cpifont_entry_info{};
-                    for (int e = 0; e < entryCount; e++) {
+                    for (int e = 0; e < entryCount; e++)
+                    {
                         NativeGetNextEntry(entry);
                         _entries.Add(new CodePage(_stream, entry));
                         var next = new Interop.cpifont_entry_info{};

@@ -25,8 +25,10 @@ namespace CpiFont
             Interop.cpifont_get_glyph(_stream, _info, (UIntPtr) index, glyph);
             return glyph;
         }
-        public int GlyphSize {
-            get => ((_info.glyph_width - 1) / 8 + 1) * _info.glyph_height; }
+        public int GlyphSize
+        {
+            get => ((_info.glyph_width - 1) / 8 + 1) * _info.glyph_height;
+        }
         public Interop.cpifont_font_info NativeInfo { get => _info; }
     }
 }

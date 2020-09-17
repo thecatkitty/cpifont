@@ -34,10 +34,13 @@ namespace CpiFont
 
         protected bool Seek(int offset, System.IO.SeekOrigin origin)
         {
-            try {
+            try
+            {
                 _stream.Seek((long) offset, origin);
                 return true;
-            } catch {
+            }
+            catch
+            {
                 return false;
             }
         }
@@ -45,15 +48,20 @@ namespace CpiFont
         static private cpifont_status ReadCallback(IntPtr ctx, byte[] buff, UIntPtr bytes)
         {
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
-            try {
+            try
+            {
                 if (obj.Read(buff, (int) bytes) != (int) bytes)
                 {
                     return cpifont_status.CPIFONT_STREAM_EOF;
                 }
                 return cpifont_status.CPIFONT_OK;
-            } catch(System.IO.IOException) {
+            }
+            catch(System.IO.IOException)
+            {
                 return cpifont_status.CPIFONT_STREAM_ERROR;
-            } catch {
+            }
+            catch
+            {
                 return cpifont_status.CPIFONT_STREAM_FATAL;
             }
         }
@@ -67,7 +75,8 @@ namespace CpiFont
         static private cpifont_status SeekCallback(IntPtr ctx, UIntPtr offset, Interop.cpifont_origin origin)
         {
             System.IO.SeekOrigin seekOrigin;
-            switch (origin) {
+            switch (origin)
+            {
                 case Interop.cpifont_origin.CPIFONT_ORIGIN_BEG:
                     seekOrigin = System.IO.SeekOrigin.Begin;
                     break;
@@ -82,15 +91,20 @@ namespace CpiFont
             }
 
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
-            try {
+            try
+            {
                 if (!obj.Seek((int) offset, seekOrigin))
                 {
                     return cpifont_status.CPIFONT_STREAM_RANGE;
                 }
                 return cpifont_status.CPIFONT_OK;
-            } catch(System.IO.IOException) {
+            }
+            catch(System.IO.IOException)
+            {
                 return cpifont_status.CPIFONT_STREAM_ERROR;
-            } catch {
+            }
+            catch
+            {
                 return cpifont_status.CPIFONT_STREAM_FATAL;
             }
         }

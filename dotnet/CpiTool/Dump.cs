@@ -5,7 +5,8 @@ using CommandLine;
 partial class CpiTool
 {
     [Verb("dump", HelpText = "Dump CPI file information.")]
-    class DumpOptions {
+    class DumpOptions
+    {
         [Value(0, Required = true, MetaName = "file", HelpText = "CPI file path")]
         public System.IO.FileInfo File { get; set; }
 
@@ -18,12 +19,17 @@ partial class CpiTool
     static int RunDump(DumpOptions options)
     {
         CpiFont.CpiFile cpi;
-        try {
+        try
+        {
             cpi = OpenCpiFile(options.File);
-        } catch (IOException ioex) {
+        }
+        catch (IOException ioex)
+        {
             Console.Error.WriteLine($"error: {ioex.Message}");
             return 2;
-        } catch (FormatException fex) {
+        }
+        catch (FormatException fex)
+        {
             Console.Error.WriteLine($"error: {fex.Message}");
             return 3;
         }
@@ -41,7 +47,8 @@ partial class CpiTool
                 var font = entry.Fonts[f];
                 PrintObject($"font {e},{f}: ", font.NativeInfo);
 
-                if (options.ShowGlyphs) {
+                if (options.ShowGlyphs)
+                {
                     for (int g = 0; g < font.NativeInfo.glyphs; g++)
                     {
                         var glyph = font.GetGlyph(g);

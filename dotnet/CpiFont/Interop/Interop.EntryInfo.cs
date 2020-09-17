@@ -6,7 +6,8 @@ namespace CpiFont
     public partial class Interop
     {
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        public class cpifont_entry_info {
+        public class cpifont_entry_info
+        {
             public UIntPtr next_offset;
             public FileType file_type;
             public Device device;

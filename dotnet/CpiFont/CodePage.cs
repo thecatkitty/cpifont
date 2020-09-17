@@ -15,11 +15,14 @@ namespace CpiFont
             _fonts = new List<Font>();
         }
         
-        public IList<Font> Fonts {
-            get {
+        public IList<Font> Fonts
+        {
+            get
+            {
                 if (_fonts.Count == 0)
                 {
-                    for (int e = 0; e < _entry.fonts; e++) {
+                    for (int e = 0; e < _entry.fonts; e++)
+                    {
                         var font = new Interop.cpifont_font_info{};
                         Interop.cpifont_get_next_font(_stream, _entry, font);
                         _fonts.Add(new Font(_stream, font));
