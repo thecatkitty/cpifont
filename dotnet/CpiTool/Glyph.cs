@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Celones.CpiFont;
 using CommandLine;
 
 partial class CpiTool
@@ -22,7 +23,7 @@ partial class CpiTool
 
     static int RunGlyph(GlyphOptions options)
     {
-        CpiFont.CpiFile cpi;
+        CpiFile cpi;
         try
         {
             cpi = OpenCpiFile(options.File);
@@ -38,7 +39,7 @@ partial class CpiTool
             return 3;
         }
 
-        CpiFont.CodePage entry;
+        CodePage entry;
         try
         {
             entry = cpi.Entries[options.EntryIndex];
@@ -49,7 +50,7 @@ partial class CpiTool
             return 21;
         }
 
-        CpiFont.Font font;
+        Font font;
         try
         {
             font = entry.Fonts[options.FontIndex];

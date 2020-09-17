@@ -1,6 +1,6 @@
 using System;
 
-namespace CpiFont
+namespace Celones.CpiFont
 {
     class Font
     {

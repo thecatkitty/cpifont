@@ -1,4 +1,4 @@
-namespace CpiFont
+namespace Celones.CpiFont
 {
     partial class CpiFile
     {

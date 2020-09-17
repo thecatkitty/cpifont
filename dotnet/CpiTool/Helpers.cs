@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Celones.CpiFont;
 
 partial class CpiTool
 {
@@ -32,11 +33,11 @@ partial class CpiTool
         }
     }
 
-    static CpiFont.CpiFile OpenCpiFile(FileInfo fileInfo)
+    static CpiFile OpenCpiFile(FileInfo fileInfo)
     {
         var file = fileInfo.Open(FileMode.Open);
-        var cpi = new CpiFont.CpiFile(file);
-        if (cpi.Type == CpiFont.FileType.Unknown)
+        var cpi = new CpiFile(file);
+        if (cpi.Type == FileType.Unknown)
         {
             throw new FormatException("Unknown file format.");
         }

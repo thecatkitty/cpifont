@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Celones.CpiFont;
 using CommandLine;
 
 partial class CpiTool
@@ -18,7 +19,7 @@ partial class CpiTool
 
     static int RunDump(DumpOptions options)
     {
-        CpiFont.CpiFile cpi;
+        CpiFile cpi;
         try
         {
             cpi = OpenCpiFile(options.File);

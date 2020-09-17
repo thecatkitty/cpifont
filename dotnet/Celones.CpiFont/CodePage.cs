@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CpiFont
+namespace Celones.CpiFont
 {
     class CodePage
     {

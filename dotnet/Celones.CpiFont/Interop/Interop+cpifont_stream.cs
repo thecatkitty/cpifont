@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace CpiFont
+namespace Celones.CpiFont
 {
-    public partial class Interop
+    internal static partial class Interop
     {
         public enum cpifont_origin
         {

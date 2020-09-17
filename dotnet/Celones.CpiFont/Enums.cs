@@ -1,4 +1,4 @@
-namespace CpiFont
+namespace Celones.CpiFont
 {
     public enum FileType
     {

@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System;
 
-namespace CpiFont
+namespace Celones.CpiFont
 {
     class StreamAdapter
     {
