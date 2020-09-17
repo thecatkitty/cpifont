@@ -15,31 +15,35 @@ namespace CpiFont
         [StructLayout(LayoutKind.Sequential)]
         public class cpifont_stream {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            public delegate UIntPtr ReadFPtr(
+            public delegate cpifont_status ReadFPtr(
                 IntPtr ctx,
                 [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] buff,
                 UIntPtr bytes);
 
             [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            public delegate UIntPtr WriteFPtr(
+            public delegate cpifont_status WriteFPtr(
                 IntPtr ctx,
                 [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] buff,
                 UIntPtr bytes);
 
             [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            public delegate UIntPtr FlushTellFPtr(
+            public delegate cpifont_status FlushFPtr(
                 IntPtr ctx);
 
             [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            public delegate bool SeekFPtr(
+            public delegate UIntPtr TellFPtr(
+                IntPtr ctx);
+
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate cpifont_status SeekFPtr(
                 IntPtr ctx,
                 UIntPtr offset,
                 cpifont_origin origin);
 
             public ReadFPtr read;
             public WriteFPtr write;
-            public FlushTellFPtr flush;
-            public FlushTellFPtr tell;
+            public FlushFPtr flush;
+            public TellFPtr tell;
             public SeekFPtr seek;
             public IntPtr context;
         }

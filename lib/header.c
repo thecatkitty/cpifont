@@ -3,53 +3,59 @@
 #include <string.h>
 
 
-cpifont_type cpifont_get_type(
-  const cpifont_stream       *s)
+cpifont_status cpifont_get_type(
+  const cpifont_stream       *s,
+        cpifont_type         *type)
 {
+  cpifont_status status;
   size_t pos;
-  bool ret;
-  cpi_file_header file_hdr;
+  cpi_file_header file_header;
 
   pos = s->tell(s->context);
-  ret = _get_file_header(s, &file_hdr);
+  status = s->read(s->context, (char*)&file_header, sizeof(cpi_file_header));
   s->seek(s->context, pos, CPIFONT_ORIGIN_BEG);
 
-  if (!ret) {
-    return CPIFONT_TYPE_UNKNOWN;
+  if (status != CPIFONT_OK) {
+    *type = CPIFONT_TYPE_UNKNOWN;
+    return status;
   }
 
-  if (_matches_tag(file_hdr.file_tag, cpi_dos_file_tag)) {
-    return CPIFONT_TYPE_DOS;
+  if (_matches_tag(file_header.file_tag, cpi_dos_file_tag)) {
+    *type = CPIFONT_TYPE_DOS;
+    return CPIFONT_OK;
   }
   
-  if (_matches_tag(file_hdr.file_tag, cpi_nt_file_tag)) {
-    return CPIFONT_TYPE_NT;
+  if (_matches_tag(file_header.file_tag, cpi_nt_file_tag)) {
+    *type = CPIFONT_TYPE_NT;
+    return CPIFONT_OK;
   }
 
-  return CPIFONT_TYPE_UNKNOWN;
+  *type = CPIFONT_TYPE_UNKNOWN;
+  return CPIFONT_OK;
 }
 
-int  cpifont_get_entry_count(
-  const cpifont_stream       *s)
+cpifont_status cpifont_get_entry_count(
+  const cpifont_stream       *s,
+        int                  *entry_count)
 {
+  cpifont_status status;
   size_t pos;
-  bool ret;
-  size_t count;
-  cpi_file_header file_hdr;
+  cpi_file_header file_header;
   cpi_font_info_header info_hdr;
 
   pos = s->tell(s->context);
-  ret = _get_file_header(s, &file_hdr);
-  if (!ret) {
-    return -1;
+  status = s->read(s->context, (char*)&file_header, sizeof(cpi_file_header));
+  if (status != CPIFONT_OK) {
+    return status;
   }
 
-  s->seek(s->context, file_hdr.offset, CPIFONT_ORIGIN_BEG);
-  count = s->read(s->context, (char*)&info_hdr, sizeof(cpi_font_info_header));
-  if (count != sizeof(cpi_font_info_header)) {
-    return -1;
+  s->seek(s->context, file_header.offset, CPIFONT_ORIGIN_BEG);
+  status = s->read(s->context, (char*)&info_hdr, sizeof(cpi_font_info_header));
+  if (status != CPIFONT_OK) {
+    return status;
   }
 
   s->seek(s->context, pos, CPIFONT_ORIGIN_BEG);
-  return info_hdr.entries_count;
+  *entry_count = info_hdr.entries_count;
+  return CPIFONT_OK;
 }

@@ -3,34 +3,33 @@
 #include <string.h>
 
 
-bool cpifont_get_next_entry(
+cpifont_status cpifont_get_next_entry(
   const cpifont_stream       *s,
         cpifont_entry_info   *entry)
 {
-  bool ret;
+  cpifont_status status;
   size_t base;
-  cpi_file_header file_hdr;
+  cpi_file_header file_header;
   cpi_codepage_entry_header entry_header;
   cpi_font_data_header data_header;
 
   if (entry->next_offset == 0) {
-    ret = _get_file_header(s, &file_hdr);
-
-    if (!ret) {
-      return false;
+    status = s->read(s->context, (char*)&file_header, sizeof(cpi_file_header));
+    if (status != CPIFONT_OK) {
+      return status;
     }
 
-    if (_matches_tag(file_hdr.file_tag, cpi_dos_file_tag)) {
+    if (_matches_tag(file_header.file_tag, cpi_dos_file_tag)) {
       entry->file_type = CPIFONT_TYPE_DOS;
-    } else if (_matches_tag(file_hdr.file_tag, cpi_nt_file_tag)) {
+    } else if (_matches_tag(file_header.file_tag, cpi_nt_file_tag)) {
       entry->file_type = CPIFONT_TYPE_NT;
     } else {
-      return false;
+      return CPIFONT_UNKNOWN_TYPE;
     }
 
     s->seek(
       s->context,
-      file_hdr.offset + sizeof(cpi_font_info_header),
+      file_header.offset + sizeof(cpi_font_info_header),
       CPIFONT_ORIGIN_BEG);
   } else {
     s->seek(s->context, entry->next_offset, CPIFONT_ORIGIN_BEG);
@@ -54,7 +53,7 @@ bool cpifont_get_next_entry(
       entry_header.font_offset &= 0xFFFF;
       break;
 
-    default: return false;
+    default: return CPIFONT_INVALID_FORMAT;
   }
 
   switch (entry_header.device_type) {
@@ -98,5 +97,5 @@ bool cpifont_get_next_entry(
   entry->fonts_size = data_header.data_length;
 
   entry->next_offset = base + entry_header.next_offset;
-  return true;
+  return CPIFONT_OK;
 }

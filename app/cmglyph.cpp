@@ -8,7 +8,10 @@ int cmd_glyph(
         int                  fidx,
         int                  gidx)
 {
-  if (eidx >= cpifont_get_entry_count(&cfs)) {
+  int entries;
+  cpifont_get_entry_count(&cfs, &entries);
+
+  if (eidx >= entries) {
     std::cerr << "error: entry index out of range" << std::endl;
     return 21;
   }

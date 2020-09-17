@@ -1,7 +1,7 @@
 #include "lib.h"
 
 
-bool cpifont_get_next_font(
+cpifont_status cpifont_get_next_font(
   const cpifont_stream       *s,
   const cpifont_entry_info   *entry,
         cpifont_font_info    *font)
@@ -13,7 +13,7 @@ bool cpifont_get_next_font(
   end = entry->fonts_offset + entry->fonts_size;
   pos = s->tell(s->context);
   if (pos == end) {
-    return false;
+    return CPIFONT_LAST;
   } else if (pos < entry->fonts_offset || pos > end) {
     s->seek(s->context, entry->fonts_offset, CPIFONT_ORIGIN_BEG);
   }
@@ -35,20 +35,21 @@ bool cpifont_get_next_font(
   }
   font->bitmap_offset = s->tell(s->context);
   font->bitmap_size = glyph_size * font->glyphs;
-  return true;
+  return CPIFONT_OK;
 }
 
-bool cpifont_get_glyph(
+cpifont_status cpifont_get_glyph(
   const cpifont_stream       *s,
   const cpifont_font_info    *font,
         size_t               index,
         char                 *glyph)
 {
+  cpifont_status status;
   int row_size, glyph_size;
-  size_t pos, count;
+  size_t pos;
 
   if (index >= font->glyphs) {
-    return false;
+    return CPIFONT_RANGE_ERROR;
   }
 
   row_size = (font->glyph_width - 1) / 8 + 1;
@@ -59,11 +60,11 @@ bool cpifont_get_glyph(
     s->context,
     font->bitmap_offset + glyph_size * index,
     CPIFONT_ORIGIN_BEG);
-  count = s->read(s->context, glyph, glyph_size);
-  if (count != glyph_size) {
-    return false;
+  status = s->read(s->context, glyph, glyph_size);
+  if (status != CPIFONT_OK) {
+    return status;
   }
 
   s->seek(s->context, pos, CPIFONT_ORIGIN_BEG);
-  return true;
+  return CPIFONT_OK;
 }

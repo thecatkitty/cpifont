@@ -11,7 +11,9 @@ namespace CpiFont
         {
             _stream = new StreamAdapter(stream);
 
-            Type = Interop.cpifont_get_type(_stream);
+            FileType type;
+            Interop.cpifont_get_type(_stream, out type);
+            Type = type;
             _entries = new List<CodePage>();
         }
 
@@ -21,7 +23,8 @@ namespace CpiFont
             get {
                 if (_entries.Count == 0 && Type != FileType.Unknown)
                 {
-                    var entryCount = Interop.cpifont_get_entry_count(_stream);
+                    int entryCount;
+                    Interop.cpifont_get_entry_count(_stream, out entryCount);
                     var entry = new Interop.EntryInfo{};
                     for (int e = 0; e < entryCount; e++) {
                         Interop.cpifont_get_next_entry(_stream, entry);

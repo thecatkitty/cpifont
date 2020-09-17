@@ -42,10 +42,20 @@ namespace CpiFont
             }
         }
 
-        static private UIntPtr ReadCallback(IntPtr ctx, byte[] buff, UIntPtr bytes)
+        static private cpifont_status ReadCallback(IntPtr ctx, byte[] buff, UIntPtr bytes)
         {
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
-            return (UIntPtr) obj.Read(buff, (int) bytes);
+            try {
+                if (obj.Read(buff, (int) bytes) != (int) bytes)
+                {
+                    return cpifont_status.CPIFONT_STREAM_EOF;
+                }
+                return cpifont_status.CPIFONT_OK;
+            } catch(System.IO.IOException) {
+                return cpifont_status.CPIFONT_STREAM_ERROR;
+            } catch {
+                return cpifont_status.CPIFONT_STREAM_FATAL;
+            }
         }
 
         static private UIntPtr TellCallback(IntPtr ctx)
@@ -54,7 +64,7 @@ namespace CpiFont
             return (UIntPtr) obj.Tell();
         }
 
-        static private bool SeekCallback(IntPtr ctx, UIntPtr offset, Interop.cpifont_origin origin)
+        static private cpifont_status SeekCallback(IntPtr ctx, UIntPtr offset, Interop.cpifont_origin origin)
         {
             System.IO.SeekOrigin seekOrigin;
             switch (origin) {
@@ -68,10 +78,21 @@ namespace CpiFont
                     seekOrigin = System.IO.SeekOrigin.End;
                     break;
                 default:
-                    return false;
+                    return cpifont_status.CPIFONT_VALUE_ERROR;
             }
+
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
-            return obj.Seek((int) offset, seekOrigin);
+            try {
+                if (!obj.Seek((int) offset, seekOrigin))
+                {
+                    return cpifont_status.CPIFONT_STREAM_RANGE;
+                }
+                return cpifont_status.CPIFONT_OK;
+            } catch(System.IO.IOException) {
+                return cpifont_status.CPIFONT_STREAM_ERROR;
+            } catch {
+                return cpifont_status.CPIFONT_STREAM_FATAL;
+            }
         }
 
         public static implicit operator Interop.cpifont_stream(StreamAdapter adapter) =>
