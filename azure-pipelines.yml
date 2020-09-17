@@ -1,0 +1,23 @@
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+      cmakeArgs: ''
+      makeCmd: 'make'
+    windows:
+      imageName: 'windows-latest'
+      cmakeArgs: '-G "NMake Makefiles"'
+      makeCmd: 'nmake'
+
+trigger:
+- master
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+- task: CMake@1
+  inputs:
+    cmakeArgs: $(cmakeArgs)
+
+- script: $(makeCmd)
