@@ -5,12 +5,12 @@ include(GenerateExportHeader)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 add_library(${PROJECT_NAME} SHARED
-    common.c
-    header.c
-    entries.c
-    fonts.c
-    names.c
-    lib.h
+    src/common.c
+    src/header.c
+    src/entries.c
+    src/fonts.c
+    src/names.c
+    src/lib.h
     cpifont_exports.h
 )
 
