@@ -5,9 +5,9 @@ namespace CpiFont
     class Font
     {
         Interop.FontInfo _info;
-        Interop.Stream _stream;
+        Interop.cpifont_stream _stream;
 
-        public Font(Interop.Stream stream, Interop.FontInfo info)
+        public Font(Interop.cpifont_stream stream, Interop.FontInfo info)
         {
             _stream = stream;
             _info = info;

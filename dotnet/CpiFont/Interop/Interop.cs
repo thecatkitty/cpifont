@@ -7,26 +7,26 @@ namespace CpiFont
     {
         [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern FileType cpifont_get_type(
-            Stream s);
+            cpifont_stream s);
 
         [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int cpifont_get_entry_count(
-            Stream s);
+            cpifont_stream s);
 
         [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool cpifont_get_next_entry(
-            Stream s,
+            cpifont_stream s,
             [In, Out] EntryInfo entry);
 
         [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool cpifont_get_next_font(
-            Stream s,
+            cpifont_stream s,
             EntryInfo entry,
             [Out] FontInfo font);
 
         [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool cpifont_get_glyph(
-            Stream s,
+            cpifont_stream s,
             FontInfo font,
             UIntPtr index,
             [Out, MarshalAs(UnmanagedType.LPArray)] byte[] glyph);

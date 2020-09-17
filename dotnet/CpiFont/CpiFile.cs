@@ -1,30 +1,18 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace CpiFont
 {
-    partial class CpiFile
+    class CpiFile
     {
-        Interop.Stream _stream;
-        GCHandle _ctx;
+        StreamAdapter _stream;
         List<CodePage> _entries;
 
         public CpiFile(System.IO.Stream stream)
         {
-            _stream = new Interop.Stream{};
-            _ctx = GCHandle.Alloc(stream);
-            _stream.Read = StreamRead;
-            _stream.Tell = StreamTell;
-            _stream.Seek = StreamSeek;
-            _stream.Context = GCHandle.ToIntPtr(_ctx);
+            _stream = new StreamAdapter(stream);
 
             Type = Interop.cpifont_get_type(_stream);
             _entries = new List<CodePage>();
-        }
-
-        ~CpiFile()
-        {
-            _ctx.Free();
         }
 
         public FileType Type { get; private set; }
@@ -48,6 +36,6 @@ namespace CpiFont
             }
         }
     
-        public Interop.Stream NativeStream { get => _stream; }
+        public StreamAdapter Stream { get => _stream; }
     }
 }

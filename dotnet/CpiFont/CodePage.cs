@@ -5,10 +5,10 @@ namespace CpiFont
     class CodePage
     {
         Interop.EntryInfo _entry;
-        Interop.Stream _stream;
+        Interop.cpifont_stream _stream;
         List<Font> _fonts;
 
-        public CodePage(Interop.Stream stream, Interop.EntryInfo entry)
+        public CodePage(Interop.cpifont_stream stream, Interop.EntryInfo entry)
         {
             _stream = stream;
             _entry = entry;
