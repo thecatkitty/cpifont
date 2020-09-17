@@ -4,10 +4,10 @@ namespace CpiFont
 {
     class Font
     {
-        Interop.FontInfo _info;
+        Interop.cpifont_font_info _info;
         Interop.cpifont_stream _stream;
 
-        public Font(Interop.cpifont_stream stream, Interop.FontInfo info)
+        public Font(Interop.cpifont_stream stream, Interop.cpifont_font_info info)
         {
             _stream = stream;
             _info = info;
@@ -15,7 +15,7 @@ namespace CpiFont
 
         public byte[] GetGlyph(int index)
         {
-            if (index < 0 || index >= _info.Glyphs)
+            if (index < 0 || index >= _info.glyphs)
             {
                 throw new System.ArgumentOutOfRangeException(
                     "Glyph index out of range");
@@ -26,7 +26,7 @@ namespace CpiFont
             return glyph;
         }
         public int GlyphSize {
-            get => ((_info.GlyphWidth - 1) / 8 + 1) * _info.GlyphHeight; }
-        public Interop.FontInfo NativeInfo { get => _info; }
+            get => ((_info.glyph_width - 1) / 8 + 1) * _info.glyph_height; }
+        public Interop.cpifont_font_info NativeInfo { get => _info; }
     }
 }

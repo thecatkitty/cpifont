@@ -6,17 +6,17 @@ namespace CpiFont
     public partial class Interop
     {
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        public class EntryInfo {
-            public UIntPtr NextOffset;
-            public FileType FileType;
-            public Device Device;
-            public DeviceType DeviceType;
+        public class cpifont_entry_info {
+            public UIntPtr next_offset;
+            public FileType file_type;
+            public Device device;
+            public DeviceType device_type;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 9)]
-            public string DeviceName;
-            public UInt16 Codepage;
-            public UInt16 Fonts;
-            public UIntPtr FontsOffset;
-            public UIntPtr FontsSize;
+            public string device_name;
+            public UInt16 codepage;
+            public UInt16 fonts;
+            public UIntPtr fonts_offset;
+            public UIntPtr fonts_size;
         }
     }
 }

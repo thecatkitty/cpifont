@@ -51,7 +51,7 @@ partial class CpiTool
         try {
             PrintGlyph(
                 font.GetGlyph(options.GlyphIndex),
-                font.NativeInfo.GlyphWidth);
+                font.NativeInfo.glyph_width);
         } catch (ArgumentOutOfRangeException) {
             Console.Error.WriteLine($"error: Glyph index out of range.");
             return 23;

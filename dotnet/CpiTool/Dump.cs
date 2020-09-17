@@ -42,11 +42,11 @@ partial class CpiTool
                 PrintObject($"font {e},{f}: ", font.NativeInfo);
 
                 if (options.ShowGlyphs) {
-                    for (int g = 0; g < font.NativeInfo.Glyphs; g++)
+                    for (int g = 0; g < font.NativeInfo.glyphs; g++)
                     {
                         var glyph = font.GetGlyph(g);
                         Console.WriteLine($"glyph {e},{f},{g}");
-                        PrintGlyph(glyph, font.NativeInfo.GlyphWidth);
+                        PrintGlyph(glyph, font.NativeInfo.glyph_width);
                     }
                 }
             }

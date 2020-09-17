@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CpiFont
 {
-    class CpiFile
+    partial class CpiFile
     {
         StreamAdapter _stream;
         List<CodePage> _entries;
@@ -10,11 +10,8 @@ namespace CpiFont
         public CpiFile(System.IO.Stream stream)
         {
             _stream = new StreamAdapter(stream);
-
-            FileType type;
-            Interop.cpifont_get_type(_stream, out type);
-            Type = type;
             _entries = new List<CodePage>();
+            Type = NativeGetType();
         }
 
         public FileType Type { get; private set; }
@@ -23,15 +20,14 @@ namespace CpiFont
             get {
                 if (_entries.Count == 0 && Type != FileType.Unknown)
                 {
-                    int entryCount;
-                    Interop.cpifont_get_entry_count(_stream, out entryCount);
-                    var entry = new Interop.EntryInfo{};
+                    var entryCount = NativeGetEntryCount();
+                    var entry = new Interop.cpifont_entry_info{};
                     for (int e = 0; e < entryCount; e++) {
-                        Interop.cpifont_get_next_entry(_stream, entry);
+                        NativeGetNextEntry(entry);
                         _entries.Add(new CodePage(_stream, entry));
-                        var next = new Interop.EntryInfo{};
-                        next.NextOffset = entry.NextOffset;
-                        next.FileType = entry.FileType;
+                        var next = new Interop.cpifont_entry_info{};
+                        next.next_offset = entry.next_offset;
+                        next.file_type = entry.file_type;
                         entry = next;
                     }
                 }
