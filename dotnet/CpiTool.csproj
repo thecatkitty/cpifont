@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <None Include="../build/cpifont.dll">
+    <None Include="../build/lib/cpifont.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

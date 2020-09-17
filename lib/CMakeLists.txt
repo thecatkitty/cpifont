@@ -1,8 +1,10 @@
+project("cpifont" C)
+
 include(GenerateExportHeader)
 
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
-add_library(cpifont SHARED
+add_library(${PROJECT_NAME} SHARED
     common.c
     header.c
     entries.c
@@ -12,13 +14,9 @@ add_library(cpifont SHARED
     cpifont_exports.h
 )
 
-GENERATE_EXPORT_HEADER(cpifont
-    BASE_NAME          cpifont
+GENERATE_EXPORT_HEADER(${PROJECT_NAME}
+    BASE_NAME          ${PROJECT_NAME}
     EXPORT_MACRO_NAME  CPIFONT_EXPORTS
     EXPORT_FILE_NAME   cpifont_exports.h
     STATIC_DEFINE      SHARED_EXPORTS_BUILT_AS_STATIC
-)
-
-set_target_properties(cpifont PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/.."
 )
