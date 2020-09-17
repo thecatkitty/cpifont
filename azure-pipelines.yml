@@ -1,23 +1,30 @@
-strategy:
-  matrix:
-    linux:
-      imageName: 'ubuntu-latest'
-      cmakeArgs: '-S ..'
-      makeCmd: 'make'
-    windows:
-      imageName: 'windows-latest'
-      cmakeArgs: '-S .. -G "NMake Makefiles"'
-      makeCmd: 'nmake'
-
 trigger:
 - master
 
-pool:
-  vmImage: $(imageName)
+jobs:
+- job:
+  displayName: Windows
+  pool:
+    vmImage: 'windows-latest'
 
-steps:
-- task: CMake@1
-  inputs:
-    cmakeArgs: $(cmakeArgs)
+  steps:
+  - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      mkdir build
+      cd build
+      cmake -S .. -G "NMake Makefiles"
+      cmake --build .
+    displayName: 'Build'
 
-- script: $(makeCmd)
+- job:
+  displayName: Linux
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: |
+      mkdir build
+      cd build
+      cmake -S ..
+      cmake --build .
+    displayName: 'Build'
