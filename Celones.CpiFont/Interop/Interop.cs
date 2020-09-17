@@ -19,28 +19,28 @@ namespace Celones.CpiFont
 
     public static partial class Interop
     {
-        [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("cpifont", CallingConvention = CallingConvention.Cdecl)]
         public static extern cpifont_status cpifont_get_type(
             cpifont_stream s,
             out FileType type);
 
-        [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("cpifont", CallingConvention = CallingConvention.Cdecl)]
         public static extern cpifont_status cpifont_get_entry_count(
             cpifont_stream s,
             out int entry_count);
 
-        [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("cpifont", CallingConvention = CallingConvention.Cdecl)]
         public static extern cpifont_status cpifont_get_next_entry(
             cpifont_stream s,
             [In, Out] cpifont_entry_info entry);
 
-        [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("cpifont", CallingConvention = CallingConvention.Cdecl)]
         public static extern cpifont_status cpifont_get_next_font(
             cpifont_stream s,
             cpifont_entry_info entry,
             [Out] cpifont_font_info font);
 
-        [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("cpifont", CallingConvention = CallingConvention.Cdecl)]
         public static extern cpifont_status cpifont_get_glyph(
             cpifont_stream s,
             cpifont_font_info font,

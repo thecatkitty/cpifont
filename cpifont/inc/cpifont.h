@@ -10,6 +10,13 @@ extern "C" {
 
 #include "cpifont_exports.h"
 
+#ifdef _MSC_VER
+#define CPIFONTAPI __cdecl
+#elif defined(__i386__)
+#define CPIFONTAPI __attribute__((cdecl))
+#else
+#define CPIFONTAPI
+#endif
 
 typedef enum {
   CPIFONT_TYPE_UNKNOWN = 0,
@@ -58,11 +65,11 @@ typedef enum {
 
 
 typedef struct {
-  cpifont_status (*read)(void *ctx, char *buffer, size_t bytes);
-  cpifont_status (*write)(void *ctx, char *buffer, size_t bytes);
-  cpifont_status (*flush)(void *ctx);
-  size_t         (*tell)(void *ctx);
-  cpifont_status (*seek)(void *ctx, size_t offset, cpifont_origin origin);
+  cpifont_status (CPIFONTAPI *read)(void *ctx, char *buffer, size_t bytes);
+  cpifont_status (CPIFONTAPI *write)(void *ctx, char *buffer, size_t bytes);
+  cpifont_status (CPIFONTAPI *flush)(void *ctx);
+  size_t         (CPIFONTAPI *tell)(void *ctx);
+  cpifont_status (CPIFONTAPI *seek)(void *ctx, size_t offset, cpifont_origin origin);
 
   void *context;
 } cpifont_stream;
@@ -88,32 +95,32 @@ typedef struct {
 } cpifont_font_info;
 
 
-cpifont_status CPIFONT_EXPORTS __cdecl cpifont_get_type(
+cpifont_status CPIFONT_EXPORTS CPIFONTAPI cpifont_get_type(
   const cpifont_stream       *s,
         cpifont_type         *type);
-cpifont_status CPIFONT_EXPORTS __cdecl cpifont_get_entry_count(
+cpifont_status CPIFONT_EXPORTS CPIFONTAPI cpifont_get_entry_count(
   const cpifont_stream       *s,
         int                  *entry_count);
 
-cpifont_status CPIFONT_EXPORTS __cdecl cpifont_get_next_entry(
+cpifont_status CPIFONT_EXPORTS CPIFONTAPI cpifont_get_next_entry(
   const cpifont_stream       *s,
         cpifont_entry_info   *entry);
-cpifont_status CPIFONT_EXPORTS __cdecl cpifont_get_next_font(
+cpifont_status CPIFONT_EXPORTS CPIFONTAPI cpifont_get_next_font(
   const cpifont_stream       *s,
   const cpifont_entry_info   *entry,
         cpifont_font_info    *font);
 
-cpifont_status CPIFONT_EXPORTS __cdecl cpifont_get_glyph(
+cpifont_status CPIFONT_EXPORTS CPIFONTAPI cpifont_get_glyph(
   const cpifont_stream       *s,
   const cpifont_font_info    *font,
         size_t               index,
         char                 *glyph);
 
-const char CPIFONT_EXPORTS * __cdecl cpifont_get_type_string(
+const char CPIFONT_EXPORTS * CPIFONTAPI cpifont_get_type_string(
         cpifont_type         type);
-const char CPIFONT_EXPORTS * __cdecl cpifont_get_device_string(
+const char CPIFONT_EXPORTS * CPIFONTAPI cpifont_get_device_string(
         cpifont_device       device);
-const char CPIFONT_EXPORTS * __cdecl cpifont_get_device_type_string(
+const char CPIFONT_EXPORTS * CPIFONTAPI cpifont_get_device_type_string(
         cpifont_device_type  device_type);
 
 #ifdef __cplusplus

@@ -13,10 +13,4 @@
     <FileVersion>0.1.0.0</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="../build/cpifont/cpifont.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
