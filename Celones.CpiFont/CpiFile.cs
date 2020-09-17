@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Celones.CpiFont
 {
-    partial class CpiFile
+    public partial class CpiFile
     {
         List<CodePage> _entries;
 

@@ -17,7 +17,7 @@ namespace Celones.CpiFont
         CPIFONT_INVALID_FORMAT = 0x201,
     }
 
-    internal static partial class Interop
+    public static partial class Interop
     {
         [DllImport("cpifont.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern cpifont_status cpifont_get_type(

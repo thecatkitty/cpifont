@@ -2,7 +2,7 @@ using System;
 
 namespace Celones.CpiFont
 {
-    class Font
+    public class Font
     {
         Interop.cpifont_stream _stream;
 

@@ -1,6 +1,6 @@
 namespace Celones.CpiFont
 {
-    partial class CpiFile
+    public partial class CpiFile
     {
         FileType NativeGetType()
         {

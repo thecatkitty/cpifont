@@ -3,7 +3,7 @@ using System;
 
 namespace Celones.CpiFont
 {
-    class StreamAdapter
+    public class StreamAdapter
     {
         System.IO.Stream _stream;
         Interop.cpifont_stream _native;

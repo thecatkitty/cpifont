@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard1.5</TargetFramework>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
 
@@ -15,10 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <Reference Include="Celones.CpiTool">
-      <HintPath>../../build/Celones.CpiFont/Celones.CpiFont.dll</HintPath>
-    </Reference>
+    <None Include="../build/cpifont/cpifont.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

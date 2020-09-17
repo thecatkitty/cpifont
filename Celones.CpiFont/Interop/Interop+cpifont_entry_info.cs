@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Celones.CpiFont
 {
-    internal static partial class Interop
+    public static partial class Interop
     {
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public class cpifont_entry_info

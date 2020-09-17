@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Celones.CpiFont
 {
-    class CodePage
+    public class CodePage
     {
         Interop.cpifont_stream _stream;
         List<Font> _fonts;
