@@ -11,7 +11,7 @@ partial class CpiTool
 
         foreach (var field in fields)
         {
-            System.Console.WriteLine(
+            Console.WriteLine(
                 string.Format(
                     "{0}{1,-" + nameWidth.ToString() + "} = {2}",
                     header, field.Name, field.GetValue(obj)));
@@ -26,9 +26,9 @@ partial class CpiTool
             for (int c = 0; c < width; c++)
             {
                 var bit = (glyph[r * rowSize + c / 8] >> (7 - (c % 8)) & 1) == 1;
-                System.Console.Write(bit ? '#' : ' ');
+                Console.Write(bit ? '#' : ' ');
             }
-            System.Console.WriteLine();
+            Console.WriteLine();
         }
     }
 

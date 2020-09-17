@@ -8,7 +8,7 @@ partial class CpiTool
     class DumpOptions
     {
         [Value(0, Required = true, MetaName = "file", HelpText = "CPI file path")]
-        public System.IO.FileInfo File { get; set; }
+        public FileInfo File { get; set; }
 
         [Option(
             'g', "show-glyphs",

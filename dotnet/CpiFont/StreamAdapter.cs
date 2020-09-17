@@ -14,7 +14,7 @@ namespace CpiFont
             _handle = GCHandle.Alloc(this);
             _stream = stream;
 
-            _native = new Interop.cpifont_stream{};
+            _native = new Interop.cpifont_stream { };
             _native.read = ReadCallback;
             _native.seek = SeekCallback;
             _native.tell = TellCallback;
@@ -30,13 +30,13 @@ namespace CpiFont
             _stream.Read(buff, 0, bytes);
 
         protected int Tell() =>
-            (int) _stream.Position;
+            (int)_stream.Position;
 
         protected bool Seek(int offset, System.IO.SeekOrigin origin)
         {
             try
             {
-                _stream.Seek((long) offset, origin);
+                _stream.Seek((long)offset, origin);
                 return true;
             }
             catch
@@ -50,13 +50,13 @@ namespace CpiFont
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
             try
             {
-                if (obj.Read(buff, (int) bytes) != (int) bytes)
+                if (obj.Read(buff, (int)bytes) != (int)bytes)
                 {
                     return cpifont_status.CPIFONT_STREAM_EOF;
                 }
                 return cpifont_status.CPIFONT_OK;
             }
-            catch(System.IO.IOException)
+            catch (System.IO.IOException)
             {
                 return cpifont_status.CPIFONT_STREAM_ERROR;
             }
@@ -69,7 +69,7 @@ namespace CpiFont
         static private UIntPtr TellCallback(IntPtr ctx)
         {
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
-            return (UIntPtr) obj.Tell();
+            return (UIntPtr)obj.Tell();
         }
 
         static private cpifont_status SeekCallback(IntPtr ctx, UIntPtr offset, Interop.cpifont_origin origin)
@@ -93,13 +93,13 @@ namespace CpiFont
             var obj = GCHandle.FromIntPtr(ctx).Target as StreamAdapter;
             try
             {
-                if (!obj.Seek((int) offset, seekOrigin))
+                if (!obj.Seek((int)offset, seekOrigin))
                 {
                     return cpifont_status.CPIFONT_STREAM_RANGE;
                 }
                 return cpifont_status.CPIFONT_OK;
             }
-            catch(System.IO.IOException)
+            catch (System.IO.IOException)
             {
                 return cpifont_status.CPIFONT_STREAM_ERROR;
             }
